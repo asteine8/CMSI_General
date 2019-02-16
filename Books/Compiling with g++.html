@@ -1,0 +1,98 @@
+<html>
+<title>
+Compiling with g++
+</title>
+
+<body>
+<h1>Compiling with  g++</h1>
+
+<hr>
+
+<b>Executive Summary:</b> <i>
+This document is a brief description of how to compile basic C++ 
+programs using g++.  It provides sample command lines for invoking the 
+g++ compiler and a list of some common compiler options.
+</i>
+
+<hr>
+<h3>What is g++?</h3>
+g++ is your friendly Gnu C++ compiler.  g++ does not handle templates well, 
+but you can use them. This document serves as a very simple bunch of hints 
+to start using g++, and is not meant to be complete.  For all the
+gory details about g++'s options, check out its man page.
+
+<h3>Compiling HelloWorld.C</h3>
+
+Say you have a file helloworld.C as follows : 
+<blockquote><pre>
+#include &lt;stdio.h&gt;
+
+void main (){
+    printf("Hello World\n");
+}
+</pre></blockquote>
+You can compile and run it from the unix prompt as follows : 
+<blockquote><pre>
+% g++ helloworld.C
+</pre></blockquote>
+This creates an executable called "a.out". You can run it by typing 
+<blockquote><pre>
+% ./a.out
+</pre></blockquote>
+Since no executable name was specified to g++, a.out is chosen by default.
+Use the "-o" option to change the name : 
+<blockquote><pre>
+% g++ -o helloworld helloworld.C
+</pre></blockquote>
+creates an executable called "helloworld". 
+<p>
+<h3>Include Directories</h3>
+
+Sometimes the header files that you write are not in the same 
+directory as the .C file that #include's it. For example you might have a
+a file "foo.h" that resides in /homes/me/randomplace/include. 
+If you want to include that file in helloworld.C, you could just give the 
+full path name in the #include, <em>OR</em> you can do the following: 
+<blockquote>
+     Add 
+<pre>
+#include &lt;foo.h&gt;
+</pre>
+     to helloworld.C and compile it with the -I option : 
+<pre>
+% g++ -o helloworld -I/homes/me/randomplace/include helloworld.C 
+</pre>
+</blockquote>
+This basically tells g++ to look for #include's in /homes/me/include in 
+addition to other directories you specify with -I
+<p>
+<h3>Compiling multiple files</h3>
+
+Most likely, you will be compiling separate modules and linking them into
+a single executable.  Here's the basic idea: compile each .C file into a .o 
+file, then link the .o files (along with any libraries) into an executable.
+Of course, one of these .C files has to define the main() or else the linker 
+will complain. 
+
+Suppose we have main.C, foo.C and bar.C and want to create an executable 
+fubar, and suppose further that we need the math library: 
+<blockquote><pre>
+% g++ -c -o foo.o foo.C 
+% g++ -c -o main.o main.C
+% g++ -c -o bar.o bar.C
+% g++ -o fubar foo.o main.o bar.o -lm
+</pre></blockquote>
+The first three commands generate foo.o, main.o and bar.o respectively. 
+The last line links them together along with the math library, libm.a. 
+<p>
+<h3>Some options</h3>
+<ul>
+<li><b>-g</b> - turn on debugging (so GDB gives more friendly output)
+<li><b>-Wall</b> - turns on most warnings
+<li><b>-O</b> or <b>-O2</b> - turn on optimizations
+<li><b>-o <em>&lt;name&gt;</em></b> - name of the output file
+<li><b>-c</b> - output an object file (.o)
+<li><b>-I<em>&lt;include path&gt;</em></b> - specify an include directory
+<li><b>-L<em>&lt;library path&gt;</em></b> - specify a lib directory
+<li><b>-l<em>&lt;library&gt;</em></b> - link with library lib&lt;library&gt;.a 
+</ul>
