@@ -1,22 +1,18 @@
 import sys
 
-inputFile = open("272.in","r")
-outputFile = open("272.out","w")
-
-inputString = "".join(inputFile.readlines())
+lines = "".join(sys.stdin.readlines())
 
 counter = 0
 outputString = ""
 
-for i in range(len(inputString)):
-    if (inputString[i] == '"'):
+for i in range(len(lines)):
+    if (lines[i] == '"'):
         if (counter % 2 == 0):
             outputString += "``"
         else:
             outputString += "''"
         counter += 1
     else:
-        outputString += inputString[i]
+        outputString += lines[i]
 
-# print(outputString)
-outputFile.write(outputString)
+print(outputString, end='')
