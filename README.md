@@ -1,2 +1,2 @@
 # CMSI_General
-A general repo for LMU CMSI work and musings
+A general repo for Computer Science work and musings
